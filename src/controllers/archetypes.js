@@ -21,6 +21,8 @@ class ArchetypesController {
         },
       }
       res.status(status).send(JSON.stringify(response))
+    } finally {
+      res.locals.connection.end()
     }
   }
 }
