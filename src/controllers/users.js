@@ -49,7 +49,6 @@ class UsersController {
       res.status(status).send(JSON.stringify(response))
     } finally {
       await res.locals.connection.end()
-      console.log('Closed loginUser')
     }
   }
 
@@ -88,7 +87,6 @@ class UsersController {
       res.status(status).send(JSON.stringify(response))
     } finally {
       await res.locals.connection.end()
-      console.log('Closed registerUser')
     }
   }
 }

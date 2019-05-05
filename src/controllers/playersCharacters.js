@@ -89,7 +89,9 @@ class PlayersCharactersController {
       getPlayerCharacterWeapons,
     )
 
-    const test = transformPlayerCharacter({
+    await res.locals.connection.end()
+
+    return transformPlayerCharacter({
       ...playerCharacter,
       player_name: username,
       equipment,
@@ -98,7 +100,6 @@ class PlayersCharactersController {
       skills,
       weapons,
     })
-    return test
   }
 
   static async getAll(req, res) {
@@ -133,7 +134,6 @@ class PlayersCharactersController {
       res.status(status).send(JSON.stringify(response))
     } finally {
       await res.locals.connection.end()
-      console.log('Closed getAllPlayersCharacters')
     }
   }
 
@@ -166,7 +166,6 @@ class PlayersCharactersController {
       res.status(status).send(JSON.stringify(response))
     } finally {
       await res.locals.connection.end()
-      console.log('Closed getPlayerCharacter')
     }
   }
 
@@ -301,7 +300,6 @@ class PlayersCharactersController {
       res.status(status).send(JSON.stringify(response))
     } finally {
       await res.locals.connection.end()
-      console.log('Closed putPlayerCharacter')
     }
   }
 
@@ -352,7 +350,6 @@ class PlayersCharactersController {
       res.status(status).send(JSON.stringify(response))
     } finally {
       await res.locals.connection.end()
-      console.log('Closed postPlayerCharacterFavor')
     }
   }
 
@@ -402,7 +399,6 @@ class PlayersCharactersController {
       res.status(status).send(JSON.stringify(response))
     } finally {
       await res.locals.connection.end()
-      console.log('Closed postPlayerCharacterWeapon')
     }
   }
 }
