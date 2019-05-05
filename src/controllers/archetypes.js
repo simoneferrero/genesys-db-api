@@ -6,7 +6,7 @@ class ArchetypesController {
       res.type('application/json')
 
       const getAllArchetypes = ArchetypesModel.getAll()
-      const [archetypes] = await res.locals.connection.execute(getAllArchetypes)
+      const [archetypes] = await res.locals.pool.execute(getAllArchetypes)
       const response = {
         status: 200,
         data: archetypes,

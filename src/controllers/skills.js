@@ -6,7 +6,7 @@ class SkillsController {
       res.type('application/json')
 
       const getAllSkills = SkillsModel.getAll()
-      const [skills] = await res.locals.connection.execute(getAllSkills)
+      const [skills] = await res.locals.pool.execute(getAllSkills)
       const response = {
         status: 200,
         data: skills,

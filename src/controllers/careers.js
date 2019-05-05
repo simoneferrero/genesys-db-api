@@ -6,7 +6,7 @@ class CareersController {
       res.type('application/json')
 
       const getAllCareers = CareersModel.getAll()
-      const [careers] = await res.locals.connection.execute(getAllCareers)
+      const [careers] = await res.locals.pool.execute(getAllCareers)
       const response = {
         status: 200,
         data: careers,

@@ -28,7 +28,7 @@ class PlayersCharactersController {
           ...playerCharacter
         },
       ],
-    ] = await res.locals.connection.execute(getPlayerCharacter)
+    ] = await res.locals.pool.execute(getPlayerCharacter)
 
     // Transformed fields
     const motivations = {
@@ -57,7 +57,7 @@ class PlayersCharactersController {
 
     // playerCharacter user data
     const getPlayerCharacterUser = UsersModel.get(playerCharacter.user_id)
-    const [[{ username }]] = await res.locals.connection.execute(
+    const [[{ username }]] = await res.locals.pool.execute(
       getPlayerCharacterUser,
     )
 
@@ -65,7 +65,7 @@ class PlayersCharactersController {
     const getPlayerCharacterFavors = PlayersCharactersModel.getAllFavors(
       playerCharacterId,
     )
-    const [favors] = await res.locals.connection.execute(
+    const [favors] = await res.locals.pool.execute(
       getPlayerCharacterFavors,
     )
 
@@ -73,7 +73,7 @@ class PlayersCharactersController {
     const getPlayerCharacterSkills = PlayersCharactersModel.getAllSkills(
       playerCharacterId,
     )
-    const [rawSkills] = await res.locals.connection.execute(
+    const [rawSkills] = await res.locals.pool.execute(
       getPlayerCharacterSkills,
     )
     const skills = rawSkills.map(({ career, ...skill }) => ({
@@ -85,11 +85,11 @@ class PlayersCharactersController {
     const getPlayerCharacterWeapons = PlayersCharactersModel.getAllWeapons(
       playerCharacterId,
     )
-    const [weapons] = await res.locals.connection.execute(
+    const [weapons] = await res.locals.pool.execute(
       getPlayerCharacterWeapons,
     )
 
-    const test = transformPlayerCharacter({
+    return transformPlayerCharacter({
       ...playerCharacter,
       player_name: username,
       equipment,
@@ -98,7 +98,6 @@ class PlayersCharactersController {
       skills,
       weapons,
     })
-    return test
   }
 
   static async getAll(req, res) {
@@ -110,7 +109,7 @@ class PlayersCharactersController {
       checkIsAuthorised(role)
 
       const getAllPlayersCharacters = PlayersCharactersModel.getAll()
-      const [playersCharacters] = await res.locals.connection.execute(
+      const [playersCharacters] = await res.locals.pool.execute(
         getAllPlayersCharacters,
       )
       const data = playersCharacters.map((playerCharacter) =>
@@ -205,7 +204,7 @@ class PlayersCharactersController {
       const getPlayerCharacterUserId = PlayersCharactersModel.get(
         player_character_id,
       )
-      const [[{ user_id }]] = await res.locals.connection.execute(
+      const [[{ user_id }]] = await res.locals.pool.execute(
         getPlayerCharacterUserId,
       )
       checkIsAuthorised(role, id, user_id)
@@ -214,7 +213,7 @@ class PlayersCharactersController {
         player_character_id,
         filteredBody,
       )
-      await res.locals.connection.execute(putPlayerCharacter)
+      await res.locals.pool.execute(putPlayerCharacter)
 
       // Favors
       favors.forEach(async ({ id, status }) => {
@@ -222,7 +221,7 @@ class PlayersCharactersController {
           id,
           status,
         )
-        await res.locals.connection.execute(putPlayerCharacterFavor)
+        await res.locals.pool.execute(putPlayerCharacterFavor)
       })
 
       // Skills
@@ -236,7 +235,7 @@ class PlayersCharactersController {
           skill.id,
         )
 
-        const [[playerCharacterSkill]] = await res.locals.connection.execute(
+        const [[playerCharacterSkill]] = await res.locals.pool.execute(
           getPlayerCharacterSkill,
         )
         if (!playerCharacterSkill) {
@@ -245,7 +244,7 @@ class PlayersCharactersController {
             skill_id: skill.id,
             rank: skill.rank,
           })
-          await res.locals.connection.execute(postPlayerCharacterSkill)
+          await res.locals.pool.execute(postPlayerCharacterSkill)
         } else if (playerCharacterSkill.rank > skill.rank) {
           throw new Error('Skill ranks cannot be lowered.')
         } else {
@@ -253,7 +252,7 @@ class PlayersCharactersController {
             playerCharacterSkill.id,
             skill.rank,
           )
-          await res.locals.connection.execute(putPlayerCharacterSkill)
+          await res.locals.pool.execute(putPlayerCharacterSkill)
         }
       })
 
@@ -263,7 +262,7 @@ class PlayersCharactersController {
           id,
           mods,
         )
-        await res.locals.connection.execute(putPlayerCharacterWeapon)
+        await res.locals.pool.execute(putPlayerCharacterWeapon)
       })
 
       // Delete weapons
@@ -271,7 +270,7 @@ class PlayersCharactersController {
         const deletePlayerCharacterWeapon = PlayersCharactersModel.deleteWeapons(
           deletedWeapons,
         )
-        await res.locals.connection.execute(deletePlayerCharacterWeapon)
+        await res.locals.pool.execute(deletePlayerCharacterWeapon)
       }
 
       const data = await PlayersCharactersController.buildData(
@@ -307,7 +306,7 @@ class PlayersCharactersController {
       const getPlayerCharacterUserId = PlayersCharactersModel.get(
         player_character_id,
       )
-      const [[{ user_id }]] = await res.locals.connection.execute(
+      const [[{ user_id }]] = await res.locals.pool.execute(
         getPlayerCharacterUserId,
       )
       checkIsAuthorised(role, id, user_id)
@@ -319,11 +318,11 @@ class PlayersCharactersController {
         size,
         type,
       })
-      const [{ insertId }] = await res.locals.connection.execute(
+      const [{ insertId }] = await res.locals.pool.execute(
         postPlayerCharacterFavor,
       )
       const getPlayerCharacterFavor = PlayersCharactersModel.getFavor(insertId)
-      const [[favor]] = await res.locals.connection.execute(
+      const [[favor]] = await res.locals.pool.execute(
         getPlayerCharacterFavor,
       )
 
@@ -355,7 +354,7 @@ class PlayersCharactersController {
       const getPlayerCharacterUserId = PlayersCharactersModel.get(
         player_character_id,
       )
-      const [[{ user_id }]] = await res.locals.connection.execute(
+      const [[{ user_id }]] = await res.locals.pool.execute(
         getPlayerCharacterUserId,
       )
       checkIsAuthorised(role, id, user_id)
@@ -364,13 +363,13 @@ class PlayersCharactersController {
         player_character_id,
         weapon_id,
       })
-      const [{ insertId }] = await res.locals.connection.execute(
+      const [{ insertId }] = await res.locals.pool.execute(
         postPlayerCharacterWeapon,
       )
       const getPlayerCharacterWeapon = PlayersCharactersModel.getWeapon(
         insertId,
       )
-      const [[weapon]] = await res.locals.connection.execute(
+      const [[weapon]] = await res.locals.pool.execute(
         getPlayerCharacterWeapon,
       )
 

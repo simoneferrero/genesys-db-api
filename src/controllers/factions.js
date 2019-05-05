@@ -6,7 +6,7 @@ class FactionsController {
       res.type('application/json')
 
       const getAllFactions = FactionsModel.getAll()
-      const [factions] = await res.locals.connection.execute(getAllFactions)
+      const [factions] = await res.locals.pool.execute(getAllFactions)
       const response = {
         status: 200,
         data: factions,
