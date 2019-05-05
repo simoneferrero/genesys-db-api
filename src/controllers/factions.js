@@ -22,7 +22,8 @@ class FactionsController {
       }
       res.status(status).send(JSON.stringify(response))
     } finally {
-      res.locals.connection.end()
+      console.log('Closed getAllFactions')
+      await res.locals.connection.end()
     }
   }
 }
