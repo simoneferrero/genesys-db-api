@@ -1,7 +1,7 @@
 {
   "name": "genesys-db-api",
   "description": "Web app to manage and display Genesys - SotB data",
-  "version": "0.1.0",
+  "version": "0.8.0",
   "engines": {
     "node": "11.x"
   },
