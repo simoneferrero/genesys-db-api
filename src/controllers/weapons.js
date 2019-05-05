@@ -24,8 +24,8 @@ class WeaponsController {
       }
       res.status(status).send(JSON.stringify(response))
     } finally {
-      console.log('Closed getAllWeapons')
       await res.locals.connection.end()
+      console.log('Closed getAllWeapons')
     }
   }
 
@@ -86,8 +86,8 @@ class WeaponsController {
       }
       res.status(status).send(JSON.stringify(response))
     } finally {
-      console.log('Closed postWeapon')
       await res.locals.connection.end()
+      console.log('Closed postWeapon')
     }
   }
 }

@@ -132,8 +132,8 @@ class PlayersCharactersController {
       }
       res.status(status).send(JSON.stringify(response))
     } finally {
-      console.log('Closed getAllPlayersCharacters')
       await res.locals.connection.end()
+      console.log('Closed getAllPlayersCharacters')
     }
   }
 
@@ -165,8 +165,8 @@ class PlayersCharactersController {
       }
       res.status(status).send(JSON.stringify(response))
     } finally {
-      console.log('Closed getPlayerCharacter')
       await res.locals.connection.end()
+      console.log('Closed getPlayerCharacter')
     }
   }
 
@@ -300,8 +300,8 @@ class PlayersCharactersController {
       }
       res.status(status).send(JSON.stringify(response))
     } finally {
-      console.log('Closed putPlayerCharacter')
       await res.locals.connection.end()
+      console.log('Closed putPlayerCharacter')
     }
   }
 
@@ -351,8 +351,8 @@ class PlayersCharactersController {
       }
       res.status(status).send(JSON.stringify(response))
     } finally {
-      console.log('Closed postPlayerCharacterFavor')
       await res.locals.connection.end()
+      console.log('Closed postPlayerCharacterFavor')
     }
   }
 
@@ -401,8 +401,8 @@ class PlayersCharactersController {
       }
       res.status(status).send(JSON.stringify(response))
     } finally {
-      console.log('Closed postPlayerCharacterWeapon')
       await res.locals.connection.end()
+      console.log('Closed postPlayerCharacterWeapon')
     }
   }
 }
