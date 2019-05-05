@@ -12,7 +12,7 @@ class UsersController {
 
       const { username, password } = req.body
       const getUser = UsersModel.get(null, username)
-      const [[user]] = await res.locals.connection.execute(getUser)
+      const [[user]] = await res.locals.pool.execute(getUser)
 
       const isValid = await bcrypt.compare(password, user ? user.password : '')
 
@@ -56,7 +56,7 @@ class UsersController {
 
       const { username, password } = req.body
       const checkUserExists = UsersModel.checkExists(username)
-      const [[{ length }]] = await res.locals.connection.execute(
+      const [[{ length }]] = await res.locals.pool.execute(
         checkUserExists,
       )
       if (length > 0) {
@@ -68,7 +68,7 @@ class UsersController {
         Number(PASSWORD_SALT_ROUNDS),
       )
       const registerUser = UsersModel.register(username, hashedPassword)
-      await res.locals.connection.execute(registerUser)
+      await res.locals.pool.execute(registerUser)
 
       const response = {
         status: 202,

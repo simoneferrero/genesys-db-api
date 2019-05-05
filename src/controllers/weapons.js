@@ -8,7 +8,7 @@ class WeaponsController {
       res.type('application/json')
 
       const getAllWeapons = WeaponsModel.getAll()
-      const [weapons] = await res.locals.connection.execute(getAllWeapons)
+      const [weapons] = await res.locals.pool.execute(getAllWeapons)
       const response = {
         status: 200,
         data: weapons,
@@ -60,9 +60,9 @@ class WeaponsController {
         rarity,
         special,
       })
-      const [{ insertId }] = await res.locals.connection.execute(postWeapon)
+      const [{ insertId }] = await res.locals.pool.execute(postWeapon)
       const getWeapon = WeaponsModel.get(insertId)
-      const [[rawWeapon]] = await res.locals.connection.execute(getWeapon)
+      const [[rawWeapon]] = await res.locals.pool.execute(getWeapon)
 
       const data = {
         ...rawWeapon,
