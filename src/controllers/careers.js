@@ -21,8 +21,6 @@ class CareersController {
         },
       }
       res.status(status).send(JSON.stringify(response))
-    } finally {
-      await res.locals.connection.end()
     }
   }
 }

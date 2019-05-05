@@ -23,8 +23,6 @@ class WeaponsController {
         },
       }
       res.status(status).send(JSON.stringify(response))
-    } finally {
-      await res.locals.connection.end()
     }
   }
 
@@ -84,8 +82,6 @@ class WeaponsController {
         },
       }
       res.status(status).send(JSON.stringify(response))
-    } finally {
-      await res.locals.connection.end()
     }
   }
 }

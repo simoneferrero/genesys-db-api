@@ -89,8 +89,6 @@ class PlayersCharactersController {
       getPlayerCharacterWeapons,
     )
 
-    await res.locals.connection.end()
-
     return transformPlayerCharacter({
       ...playerCharacter,
       player_name: username,
@@ -132,8 +130,6 @@ class PlayersCharactersController {
         },
       }
       res.status(status).send(JSON.stringify(response))
-    } finally {
-      await res.locals.connection.end()
     }
   }
 
@@ -164,8 +160,6 @@ class PlayersCharactersController {
         },
       }
       res.status(status).send(JSON.stringify(response))
-    } finally {
-      await res.locals.connection.end()
     }
   }
 
@@ -298,8 +292,6 @@ class PlayersCharactersController {
         },
       }
       res.status(status).send(JSON.stringify(response))
-    } finally {
-      await res.locals.connection.end()
     }
   }
 
@@ -348,8 +340,6 @@ class PlayersCharactersController {
         },
       }
       res.status(status).send(JSON.stringify(response))
-    } finally {
-      await res.locals.connection.end()
     }
   }
 
@@ -397,8 +387,6 @@ class PlayersCharactersController {
         },
       }
       res.status(status).send(JSON.stringify(response))
-    } finally {
-      await res.locals.connection.end()
     }
   }
 }
