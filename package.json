@@ -1,0 +1,52 @@
+{
+  "name": "genesys-db-api",
+  "description": "Web app to manage and display Genesys - SotB data",
+  "version": "0.1.0",
+  "engines": {
+    "node": "11.x"
+  },
+  "scripts": {
+    "build": "babel ./src --out-dir dist",
+    "clean": "rimraf dist && rimraf node_modules",
+    "dev": "NODE_ENV=development npm run server",
+    "format": "npm run prettify -- --write",
+    "lint": "eslint ./src --ignore-path .gitignore",
+    "prettify": "prettier \"src/**/*.js\"",
+    "prod": "NODE_ENV=production npm run server:prod",
+    "server:prod": "node ./dist/bin/www",
+    "server": "babel-node ./src/bin/www",
+    "start": "npm run prod",
+    "validate": "npm run lint && npm run prettify -- --list-different",
+    "watch": "nodemon"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "dotenv": "^7.0.0",
+    "express": "~4.16.0",
+    "express-jwt": "^5.3.1",
+    "http-errors": "~1.6.2",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.11",
+    "morgan": "~1.9.0",
+    "mysql2": "^1.6.5",
+    "sql-bricks": "^2.0.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.3",
+    "acorn": "^6.1.1",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.5",
+    "nodemon": "^1.18.11",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.3"
+  }
+}
