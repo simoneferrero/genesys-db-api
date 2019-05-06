@@ -56,9 +56,7 @@ class UsersController {
 
       const { username, password } = req.body
       const checkUserExists = UsersModel.checkExists(username)
-      const [[{ length }]] = await res.locals.pool.execute(
-        checkUserExists,
-      )
+      const [[{ length }]] = await res.locals.pool.execute(checkUserExists)
       if (length > 0) {
         throw { status: 409, message: 'Username already in use' }
       }

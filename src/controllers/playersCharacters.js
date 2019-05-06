@@ -65,17 +65,13 @@ class PlayersCharactersController {
     const getPlayerCharacterFavors = PlayersCharactersModel.getAllFavors(
       playerCharacterId,
     )
-    const [favors] = await res.locals.pool.execute(
-      getPlayerCharacterFavors,
-    )
+    const [favors] = await res.locals.pool.execute(getPlayerCharacterFavors)
 
     // skills data
     const getPlayerCharacterSkills = PlayersCharactersModel.getAllSkills(
       playerCharacterId,
     )
-    const [rawSkills] = await res.locals.pool.execute(
-      getPlayerCharacterSkills,
-    )
+    const [rawSkills] = await res.locals.pool.execute(getPlayerCharacterSkills)
     const skills = rawSkills.map(({ career, ...skill }) => ({
       ...skill,
       career: !!career,
@@ -85,9 +81,7 @@ class PlayersCharactersController {
     const getPlayerCharacterWeapons = PlayersCharactersModel.getAllWeapons(
       playerCharacterId,
     )
-    const [weapons] = await res.locals.pool.execute(
-      getPlayerCharacterWeapons,
-    )
+    const [weapons] = await res.locals.pool.execute(getPlayerCharacterWeapons)
 
     return transformPlayerCharacter({
       ...playerCharacter,
@@ -322,9 +316,7 @@ class PlayersCharactersController {
         postPlayerCharacterFavor,
       )
       const getPlayerCharacterFavor = PlayersCharactersModel.getFavor(insertId)
-      const [[favor]] = await res.locals.pool.execute(
-        getPlayerCharacterFavor,
-      )
+      const [[favor]] = await res.locals.pool.execute(getPlayerCharacterFavor)
 
       const response = {
         status: 200,
@@ -369,9 +361,7 @@ class PlayersCharactersController {
       const getPlayerCharacterWeapon = PlayersCharactersModel.getWeapon(
         insertId,
       )
-      const [[weapon]] = await res.locals.pool.execute(
-        getPlayerCharacterWeapon,
-      )
+      const [[weapon]] = await res.locals.pool.execute(getPlayerCharacterWeapon)
 
       const response = {
         status: 200,

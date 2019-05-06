@@ -9,9 +9,13 @@ class WeaponsController {
 
       const getAllWeapons = WeaponsModel.getAll()
       const [weapons] = await res.locals.pool.execute(getAllWeapons)
+      const data = weapons.map(({ restricted, ...weapon }) => ({
+        ...weapon,
+        restricted: !!restricted,
+      }))
       const response = {
         status: 200,
-        data: weapons,
+        data,
       }
       res.send(JSON.stringify(response))
     } catch (error) {
