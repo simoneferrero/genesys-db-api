@@ -1,7 +1,7 @@
 {
   "name": "genesys-db-api",
   "description": "Web app to manage and display Genesys - SotB data",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "engines": {
     "node": "11.x"
   },
@@ -17,7 +17,7 @@
     "server": "babel-node ./src/bin/www",
     "start": "npm run prod",
     "validate": "npm run lint && npm run prettify -- --list-different",
-    "watch": "nodemon"
+    "watch": "nodemon --signal SIGINT"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",

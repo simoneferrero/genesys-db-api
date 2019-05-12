@@ -1,3 +1,5 @@
+const keyBy = require('lodash/keyBy')
+
 const {
   checkIsAuthorised,
   transformPlayerCharacter,
@@ -67,6 +69,15 @@ class PlayersCharactersController {
     )
     const [favors] = await res.locals.pool.execute(getPlayerCharacterFavors)
 
+    // critical injuries data
+    const getPlayerCharacterCriticalInjuries = PlayersCharactersModel.getAllCriticalInjuries(
+      playerCharacterId,
+    )
+    const [rawCriticalInjuries] = await res.locals.pool.execute(
+      getPlayerCharacterCriticalInjuries,
+    )
+    const critical_injuries = keyBy(rawCriticalInjuries, 'id')
+
     // skills data
     const getPlayerCharacterSkills = PlayersCharactersModel.getAllSkills(
       playerCharacterId,
@@ -85,10 +96,11 @@ class PlayersCharactersController {
 
     return transformPlayerCharacter({
       ...playerCharacter,
-      player_name: username,
+      critical_injuries,
       equipment,
-      motivations,
       favors,
+      motivations,
+      player_name: username,
       skills,
       weapons,
     })
@@ -162,6 +174,7 @@ class PlayersCharactersController {
       res.type('application/json')
 
       const {
+        deletedCriticalInjuries,
         deletedWeapons,
         equipment: { armor, gear, money },
         favors,
@@ -208,6 +221,14 @@ class PlayersCharactersController {
         filteredBody,
       )
       await res.locals.pool.execute(putPlayerCharacter)
+
+      // Delete critical injuries
+      if (deletedCriticalInjuries && deletedCriticalInjuries.length > 0) {
+        const deletePlayerCharacterCriticalInjuries = PlayersCharactersModel.deleteCriticalInjuries(
+          deletedCriticalInjuries,
+        )
+        await res.locals.pool.execute(deletePlayerCharacterCriticalInjuries)
+      }
 
       // Favors
       favors.forEach(async ({ id, status }) => {
@@ -260,11 +281,11 @@ class PlayersCharactersController {
       })
 
       // Delete weapons
-      if (deletedWeapons.length > 0) {
-        const deletePlayerCharacterWeapon = PlayersCharactersModel.deleteWeapons(
+      if (deletedWeapons && deletedWeapons.length > 0) {
+        const deletePlayerCharacterWeapons = PlayersCharactersModel.deleteWeapons(
           deletedWeapons,
         )
-        await res.locals.pool.execute(deletePlayerCharacterWeapon)
+        await res.locals.pool.execute(deletePlayerCharacterWeapons)
       }
 
       const data = await PlayersCharactersController.buildData(
@@ -275,6 +296,55 @@ class PlayersCharactersController {
       const response = {
         status: 200,
         data,
+      }
+      res.send(JSON.stringify(response))
+    } catch (error) {
+      const status = error.status || 500
+      const response = {
+        status: status || 500,
+        error: {
+          message: error.message || 'There was an error with the request.',
+        },
+      }
+      res.status(status).send(JSON.stringify(response))
+    }
+  }
+
+  static async postCriticalInjury(req, res) {
+    try {
+      res.type('application/json')
+
+      const { critical_injury_id } = req.body
+      const { player_character_id } = req.params
+      const { id, role } = req.user || {}
+
+      const getPlayerCharacterUserId = PlayersCharactersModel.get(
+        player_character_id,
+      )
+      const [[{ user_id }]] = await res.locals.pool.execute(
+        getPlayerCharacterUserId,
+      )
+      checkIsAuthorised(role, id, user_id)
+
+      const postPlayerCharacterCriticalInjury = PlayersCharactersModel.postCriticalInjury(
+        {
+          critical_injury_id,
+          player_character_id,
+        },
+      )
+      const [{ insertId }] = await res.locals.pool.execute(
+        postPlayerCharacterCriticalInjury,
+      )
+      const getPlayerCharacterCriticalInjury = PlayersCharactersModel.getCriticalInjury(
+        insertId,
+      )
+      const [[criticalInjury]] = await res.locals.pool.execute(
+        getPlayerCharacterCriticalInjury,
+      )
+
+      const response = {
+        status: 200,
+        data: criticalInjury,
       }
       res.send(JSON.stringify(response))
     } catch (error) {

@@ -2,6 +2,7 @@ const sql = require('sql-bricks')
 
 const {
   PLAYERS_CHARACTERS,
+  PLAYERS_CHARACTERS_CRITICAL_INJURIES,
   PLAYERS_CHARACTERS_FAVORS,
   PLAYERS_CHARACTERS_SKILLS,
   PLAYERS_CHARACTERS_WEAPONS,
@@ -53,6 +54,38 @@ class PlayersCharactersModel {
       .update(PLAYERS_CHARACTERS)
       .set(fields)
       .where({ id })
+      .toString()
+  }
+
+  static getAllCriticalInjuries(player_character_id) {
+    return sql
+      .select('id', 'critical_injury_id')
+      .from(PLAYERS_CHARACTERS_CRITICAL_INJURIES)
+      .where({ player_character_id })
+      .toString()
+  }
+
+  static getCriticalInjury(id) {
+    return sql
+      .select('id', 'critical_injury_id')
+      .from(PLAYERS_CHARACTERS_CRITICAL_INJURIES)
+      .where({ id })
+      .toString()
+  }
+
+  static postCriticalInjury(criticalInjury) {
+    return sql
+      .insert(PLAYERS_CHARACTERS_CRITICAL_INJURIES, {
+        ...criticalInjury,
+      })
+      .toString()
+  }
+
+  static deleteCriticalInjuries(ids) {
+    return sql
+      .delete()
+      .from(PLAYERS_CHARACTERS_CRITICAL_INJURIES)
+      .where(sql.in('id', ...ids))
       .toString()
   }
 
