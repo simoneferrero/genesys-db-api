@@ -13,6 +13,12 @@ router.get('/:player_character_id', PlayersCharactersController.get)
 /* PUT playerCharacter */
 router.put('/:player_character_id', PlayersCharactersController.put)
 
+/* POST playerCharacter criticalInjury */
+router.post(
+  '/:player_character_id/critical-injury',
+  PlayersCharactersController.postCriticalInjury,
+)
+
 /* POST playerCharacter favor */
 router.post(
   '/:player_character_id/favor',

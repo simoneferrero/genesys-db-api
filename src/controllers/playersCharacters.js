@@ -224,10 +224,10 @@ class PlayersCharactersController {
 
       // Delete critical injuries
       if (deletedCriticalInjuries && deletedCriticalInjuries.length > 0) {
-        const deletePlayerCharacterCriticalInjury = PlayersCharactersModel.deleteCriticalInjuries(
-          deletedWeapons,
+        const deletePlayerCharacterCriticalInjuries = PlayersCharactersModel.deleteCriticalInjuries(
+          deletedCriticalInjuries,
         )
-        await res.locals.pool.execute(deletePlayerCharacterCriticalInjury)
+        await res.locals.pool.execute(deletePlayerCharacterCriticalInjuries)
       }
 
       // Favors
@@ -282,10 +282,10 @@ class PlayersCharactersController {
 
       // Delete weapons
       if (deletedWeapons && deletedWeapons.length > 0) {
-        const deletePlayerCharacterWeapon = PlayersCharactersModel.deleteWeapons(
+        const deletePlayerCharacterWeapons = PlayersCharactersModel.deleteWeapons(
           deletedWeapons,
         )
-        await res.locals.pool.execute(deletePlayerCharacterWeapon)
+        await res.locals.pool.execute(deletePlayerCharacterWeapons)
       }
 
       const data = await PlayersCharactersController.buildData(
