@@ -1,11 +1,12 @@
 const sql = require('sql-bricks')
 
 const {
-  PLAYERS_CHARACTERS,
   PLAYERS_CHARACTERS_CRITICAL_INJURIES,
   PLAYERS_CHARACTERS_FAVORS,
   PLAYERS_CHARACTERS_SKILLS,
+  PLAYERS_CHARACTERS_TALENTS,
   PLAYERS_CHARACTERS_WEAPONS,
+  PLAYERS_CHARACTERS,
   SKILLS,
   USERS,
   WEAPONS,
@@ -159,6 +160,39 @@ class PlayersCharactersModel {
     return sql
       .update(PLAYERS_CHARACTERS_SKILLS)
       .set({ [`${PLAYERS_CHARACTERS_SKILLS}.rank`]: rank })
+      .where({ id })
+      .toString()
+  }
+
+  static getAllTalents(player_character_id) {
+    return sql
+      .select('id', 'talent_id', 'rank', 'notes')
+      .from(PLAYERS_CHARACTERS_TALENTS)
+      .where({ player_character_id })
+      .toString()
+  }
+
+  static getTalent(id) {
+    return sql
+      .select('id', 'talent_id', `${PLAYERS_CHARACTERS_TALENTS}.rank`, 'notes')
+      .from(PLAYERS_CHARACTERS_TALENTS)
+      .where({ id })
+      .toString()
+  }
+
+  static postTalent({ rank, ...talent }) {
+    return sql
+      .insert(PLAYERS_CHARACTERS_TALENTS, {
+        ...talent,
+        [`${PLAYERS_CHARACTERS_TALENTS}.rank`]: rank,
+      })
+      .toString()
+  }
+
+  static putTalent(id, rank, notes) {
+    return sql
+      .update(PLAYERS_CHARACTERS_TALENTS)
+      .set({ [`${PLAYERS_CHARACTERS_TALENTS}.rank`]: rank, notes })
       .where({ id })
       .toString()
   }

@@ -25,6 +25,12 @@ router.post(
   PlayersCharactersController.postFavor,
 )
 
+/* POST playerCharacter talent */
+router.post(
+  '/:player_character_id/talent',
+  PlayersCharactersController.postTalent,
+)
+
 /* POST playerCharacter weapon */
 router.post(
   '/:player_character_id/weapon',

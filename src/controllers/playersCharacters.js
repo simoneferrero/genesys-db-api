@@ -88,6 +88,12 @@ class PlayersCharactersController {
       career: !!career,
     }))
 
+    // skills data
+    const getPlayerCharacterTalents = PlayersCharactersModel.getAllTalents(
+      playerCharacterId,
+    )
+    const [talents] = await res.locals.pool.execute(getPlayerCharacterTalents)
+
     // weapons data
     const getPlayerCharacterWeapons = PlayersCharactersModel.getAllWeapons(
       playerCharacterId,
@@ -102,6 +108,7 @@ class PlayersCharactersController {
       motivations,
       player_name: username,
       skills,
+      talents,
       weapons,
     })
   }
@@ -182,6 +189,7 @@ class PlayersCharactersController {
         notes,
         skills,
         strain_current,
+        talents,
         weapons,
         wounds_current,
         xp_available,
@@ -231,54 +239,68 @@ class PlayersCharactersController {
       }
 
       // Favors
-      favors.forEach(async ({ id, status }) => {
-        const putPlayerCharacterFavor = PlayersCharactersModel.putFavor(
-          id,
-          status,
-        )
-        await res.locals.pool.execute(putPlayerCharacterFavor)
-      })
+      favors &&
+        favors.forEach(async ({ id, status }) => {
+          const putPlayerCharacterFavor = PlayersCharactersModel.putFavor(
+            id,
+            status,
+          )
+          await res.locals.pool.execute(putPlayerCharacterFavor)
+        })
 
       // Skills
-      skills.forEach(async (skill) => {
-        if (skill.rank > 5) {
-          throw new Error('Skill ranks cannot be greater than 5.')
-        }
+      skills &&
+        skills.forEach(async (skill) => {
+          if (skill.rank > 5) {
+            throw new Error('Skill ranks cannot be greater than 5.')
+          }
 
-        const getPlayerCharacterSkill = PlayersCharactersModel.getSkill(
-          player_character_id,
-          skill.id,
-        )
-
-        const [[playerCharacterSkill]] = await res.locals.pool.execute(
-          getPlayerCharacterSkill,
-        )
-        if (!playerCharacterSkill) {
-          const postPlayerCharacterSkill = PlayersCharactersModel.postSkill({
+          const getPlayerCharacterSkill = PlayersCharactersModel.getSkill(
             player_character_id,
-            skill_id: skill.id,
-            rank: skill.rank,
-          })
-          await res.locals.pool.execute(postPlayerCharacterSkill)
-        } else if (playerCharacterSkill.rank > skill.rank) {
-          throw new Error('Skill ranks cannot be lowered.')
-        } else {
-          const putPlayerCharacterSkill = PlayersCharactersModel.putSkill(
-            playerCharacterSkill.id,
-            skill.rank,
+            skill.id,
           )
-          await res.locals.pool.execute(putPlayerCharacterSkill)
-        }
-      })
+
+          const [[playerCharacterSkill]] = await res.locals.pool.execute(
+            getPlayerCharacterSkill,
+          )
+          if (!playerCharacterSkill) {
+            const postPlayerCharacterSkill = PlayersCharactersModel.postSkill({
+              player_character_id,
+              skill_id: skill.id,
+              rank: skill.rank,
+            })
+            await res.locals.pool.execute(postPlayerCharacterSkill)
+          } else if (playerCharacterSkill.rank > skill.rank) {
+            throw new Error('Skill ranks cannot be lowered.')
+          } else {
+            const putPlayerCharacterSkill = PlayersCharactersModel.putSkill(
+              playerCharacterSkill.id,
+              skill.rank,
+            )
+            await res.locals.pool.execute(putPlayerCharacterSkill)
+          }
+        })
+
+      // Talents
+      talents &&
+        talents.forEach(async ({ id, rank, notes }) => {
+          const putPlayerCharacterTalent = PlayersCharactersModel.putTalent(
+            id,
+            rank,
+            notes,
+          )
+          await res.locals.pool.execute(putPlayerCharacterTalent)
+        })
 
       // Edit weapons
-      weapons.forEach(async ({ id, mods }) => {
-        const putPlayerCharacterWeapon = PlayersCharactersModel.putWeapon(
-          id,
-          mods,
-        )
-        await res.locals.pool.execute(putPlayerCharacterWeapon)
-      })
+      weapons &&
+        weapons.forEach(async ({ id, mods }) => {
+          const putPlayerCharacterWeapon = PlayersCharactersModel.putWeapon(
+            id,
+            mods,
+          )
+          await res.locals.pool.execute(putPlayerCharacterWeapon)
+        })
 
       // Delete weapons
       if (deletedWeapons && deletedWeapons.length > 0) {
@@ -391,6 +413,53 @@ class PlayersCharactersController {
       const response = {
         status: 200,
         data: favor,
+      }
+      res.send(JSON.stringify(response))
+    } catch (error) {
+      const status = error.status || 500
+      const response = {
+        status: status || 500,
+        error: {
+          message: error.message || 'There was an error with the request.',
+        },
+      }
+      res.status(status).send(JSON.stringify(response))
+    }
+  }
+
+  static async postTalent(req, res) {
+    try {
+      res.type('application/json')
+
+      const { notes, rank, talent_id } = req.body
+      const { player_character_id } = req.params
+      const { id, role } = req.user || {}
+
+      const getPlayerCharacterUserId = PlayersCharactersModel.get(
+        player_character_id,
+      )
+      const [[{ user_id }]] = await res.locals.pool.execute(
+        getPlayerCharacterUserId,
+      )
+      checkIsAuthorised(role, id, user_id)
+
+      const postPlayerCharacterTalent = PlayersCharactersModel.postTalent({
+        notes,
+        rank,
+        player_character_id: Number(player_character_id),
+        talent_id,
+      })
+      const [{ insertId }] = await res.locals.pool.execute(
+        postPlayerCharacterTalent,
+      )
+      const getPlayerCharacterTalent = PlayersCharactersModel.getTalent(
+        insertId,
+      )
+      const [[talent]] = await res.locals.pool.execute(getPlayerCharacterTalent)
+
+      const response = {
+        status: 200,
+        data: talent,
       }
       res.send(JSON.stringify(response))
     } catch (error) {
