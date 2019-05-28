@@ -166,7 +166,7 @@ class PlayersCharactersModel {
 
   static getAllTalents(player_character_id) {
     return sql
-      .select('id', 'talent_id', 'rank', 'notes')
+      .select('id', 'talent_id', `${PLAYERS_CHARACTERS_TALENTS}.rank`, 'notes')
       .from(PLAYERS_CHARACTERS_TALENTS)
       .where({ player_character_id })
       .toString()

@@ -88,11 +88,14 @@ class PlayersCharactersController {
       career: !!career,
     }))
 
-    // skills data
+    // talents data
     const getPlayerCharacterTalents = PlayersCharactersModel.getAllTalents(
       playerCharacterId,
     )
-    const [talents] = await res.locals.pool.execute(getPlayerCharacterTalents)
+    const [rawTalents] = await res.locals.pool.execute(
+      getPlayerCharacterTalents,
+    )
+    const talents = keyBy(rawTalents, 'id')
 
     // weapons data
     const getPlayerCharacterWeapons = PlayersCharactersModel.getAllWeapons(
@@ -283,7 +286,7 @@ class PlayersCharactersController {
 
       // Talents
       talents &&
-        talents.forEach(async ({ id, rank, notes }) => {
+        talents.forEach(async ({ id, notes, rank }) => {
           const putPlayerCharacterTalent = PlayersCharactersModel.putTalent(
             id,
             rank,
