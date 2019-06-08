@@ -18,6 +18,7 @@ const loginRouter = require('./routes/login')
 const playersCharactersRouter = require('./routes/playersCharacters')
 const registerRouter = require('./routes/register')
 const skillsRouter = require('./routes/skills')
+const talentsRouter = require('./routes/talents')
 const weaponsRouter = require('./routes/weapons')
 
 let pool
@@ -84,6 +85,7 @@ try {
   app.use('/players-characters', playersCharactersRouter)
   app.use('/register', registerRouter)
   app.use('/skills', skillsRouter)
+  app.use('/talents', talentsRouter)
   app.use('/weapons', weaponsRouter)
 
   // catch 404 and forward to error handler

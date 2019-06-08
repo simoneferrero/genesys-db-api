@@ -7,8 +7,10 @@ const CONSTANTS = {
   PLAYERS_CHARACTERS_CRITICAL_INJURIES: 'players_characters_critical_injuries',
   PLAYERS_CHARACTERS_FAVORS: 'players_characters_favors',
   PLAYERS_CHARACTERS_SKILLS: 'players_characters_skills',
+  PLAYERS_CHARACTERS_TALENTS: 'players_characters_talents',
   PLAYERS_CHARACTERS_WEAPONS: 'players_characters_weapons',
   SKILLS: 'skills',
+  TALENTS: 'talents',
   USERS: 'users',
   WEAPONS: 'weapons',
 }
