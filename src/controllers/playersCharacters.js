@@ -6,6 +6,7 @@ const {
 } = require('../utils/helpers')
 
 const PlayersCharactersModel = require('../models/playersCharacters')
+const TalentsModel = require('../models/talents')
 const UsersModel = require('../models/users')
 
 class PlayersCharactersController {
@@ -434,7 +435,7 @@ class PlayersCharactersController {
     try {
       res.type('application/json')
 
-      const { notes, rank, talent_id } = req.body
+      const { talent_id } = req.body
       const { player_character_id } = req.params
       const { id, role } = req.user || {}
 
@@ -446,11 +447,13 @@ class PlayersCharactersController {
       )
       checkIsAuthorised(role, id, user_id)
 
+      const getTalent = TalentsModel.get(talent_id)
+      const [[{ ranked }]] = await res.locals.pool.execute(getTalent)
+
       const postPlayerCharacterTalent = PlayersCharactersModel.postTalent({
-        notes,
-        rank,
         player_character_id: Number(player_character_id),
         talent_id,
+        ...(ranked && { rank: 1 }),
       })
       const [{ insertId }] = await res.locals.pool.execute(
         postPlayerCharacterTalent,
@@ -458,11 +461,13 @@ class PlayersCharactersController {
       const getPlayerCharacterTalent = PlayersCharactersModel.getTalent(
         insertId,
       )
-      const [[talent]] = await res.locals.pool.execute(getPlayerCharacterTalent)
+      const [[characterTalent]] = await res.locals.pool.execute(
+        getPlayerCharacterTalent,
+      )
 
       const response = {
         status: 200,
-        data: talent,
+        data: characterTalent,
       }
       res.send(JSON.stringify(response))
     } catch (error) {

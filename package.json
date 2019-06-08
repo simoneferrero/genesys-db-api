@@ -1,7 +1,7 @@
 {
   "name": "genesys-db-api",
   "description": "Web app to manage and display Genesys - SotB data",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "engines": {
     "node": "11.x"
   },
@@ -24,7 +24,7 @@
     "cookie-parser": "^1.4.3",
     "debug": "^4.1.1",
     "dotenv": "^8.0.0",
-    "express": "^4.16.0",
+    "express": "^4.17.1",
     "express-jwt": "^5.3.1",
     "http-errors": "^1.7.2",
     "jsonwebtoken": "^8.5.1",
@@ -35,18 +35,18 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
-    "@babel/node": "^7.2.2",
-    "@babel/preset-env": "^7.4.3",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "acorn": "^6.1.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.1.0",
-    "eslint-plugin-prettier": "^3.0.1",
-    "husky": "^2.2.0",
-    "lint-staged": "^8.1.6",
-    "nodemon": "^1.19.0",
-    "prettier": "^1.16.4",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^2.4.0",
+    "lint-staged": "^8.2.0",
+    "nodemon": "^1.19.1",
+    "prettier": "^1.18.2",
     "rimraf": "^2.6.3"
   }
 }
