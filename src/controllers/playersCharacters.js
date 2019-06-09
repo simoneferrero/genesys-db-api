@@ -185,14 +185,14 @@ class PlayersCharactersController {
       res.type('application/json')
 
       const {
-        // characteristics: {
-        //   agility,
-        //   brawn,
-        //   cunning,
-        //   intellect,
-        //   presence,
-        //   willpower,
-        // },
+        characteristics: {
+          agility,
+          brawn,
+          cunning,
+          intellect,
+          presence,
+          willpower,
+        },
         defense_melee,
         defense_ranged,
         deletedCriticalInjuries,
@@ -216,15 +216,15 @@ class PlayersCharactersController {
       const { id, role } = req.user || {}
 
       const filteredBody = {
-        // agility,
+        agility,
         armor,
-        // brawn,
-        // cunning,
+        brawn,
+        cunning,
         defense_melee,
         defense_ranged,
-        // intellect,
-        // presence,
-        // willpower,
+        intellect,
+        presence,
+        willpower,
         desire_description: desire.description,
         desire_type: desire.type,
         fear_description: fear.description,
