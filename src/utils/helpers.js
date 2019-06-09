@@ -1,24 +1,21 @@
-const transformPlayerCharacter = (
-  {
-    agility,
-    brawn,
-    cunning,
-    defense_melee,
-    defense_ranged,
-    intellect,
-    presence,
-    soak,
-    strain_current,
-    strain_total,
-    willpower,
-    wounds_current,
-    wounds_total,
-    xp_available,
-    xp_total,
-    ...fields
-  },
-  getFullData,
-) => ({
+const transformPlayerCharacter = ({
+  agility,
+  brawn,
+  cunning,
+  defense_melee,
+  defense_ranged,
+  intellect,
+  presence,
+  soak,
+  strain_current,
+  strain_total,
+  willpower,
+  wounds_current,
+  wounds_total,
+  xp_available,
+  xp_total,
+  ...fields
+}) => ({
   ...fields,
   characteristics: {
     brawn,
@@ -43,12 +40,10 @@ const transformPlayerCharacter = (
       ranged: defense_ranged,
     },
   },
-  ...(getFullData && {
-    xp: {
-      available: xp_available,
-      total: xp_total,
-    },
-  }),
+  xp: {
+    available: xp_available,
+    total: xp_total,
+  },
 })
 
 const checkIsAuthorised = (role, id, authorisedId) => {

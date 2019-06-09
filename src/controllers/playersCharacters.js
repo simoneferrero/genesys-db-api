@@ -185,25 +185,46 @@ class PlayersCharactersController {
       res.type('application/json')
 
       const {
+        // characteristics: {
+        //   agility,
+        //   brawn,
+        //   cunning,
+        //   intellect,
+        //   presence,
+        //   willpower,
+        // },
+        defense_melee,
+        defense_ranged,
         deletedCriticalInjuries,
         deletedWeapons,
         equipment: { armor, gear, money },
         favors,
         motivations: { strength, flaw, desire, fear },
         notes,
+        soak,
         skills,
         strain_current,
+        strain_total,
         talents,
         weapons,
         wounds_current,
-        xp_available,
-        xp_total,
+        wounds_total,
+        xp,
       } = req.body
+
       const { player_character_id } = req.params
       const { id, role } = req.user || {}
 
       const filteredBody = {
+        // agility,
         armor,
+        // brawn,
+        // cunning,
+        defense_melee,
+        defense_ranged,
+        // intellect,
+        // presence,
+        // willpower,
         desire_description: desire.description,
         desire_type: desire.type,
         fear_description: fear.description,
@@ -213,12 +234,15 @@ class PlayersCharactersController {
         gear,
         money,
         notes,
+        soak,
         strain_current,
+        strain_total,
         strength_description: strength.description,
         strength_type: strength.type,
         wounds_current,
-        xp_available,
-        xp_total,
+        wounds_total,
+        xp_available: xp.available,
+        xp_total: xp.total,
       }
       const getPlayerCharacterUserId = PlayersCharactersModel.get(
         player_character_id,
