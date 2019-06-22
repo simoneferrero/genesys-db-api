@@ -298,8 +298,6 @@ class PlayersCharactersController {
               rank: skill.rank,
             })
             await res.locals.pool.execute(postPlayerCharacterSkill)
-          } else if (playerCharacterSkill.rank > skill.rank) {
-            throw new Error('Skill ranks cannot be lowered.')
           } else {
             const putPlayerCharacterSkill = PlayersCharactersModel.putSkill(
               playerCharacterSkill.id,
