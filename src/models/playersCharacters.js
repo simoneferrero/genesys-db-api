@@ -156,10 +156,10 @@ class PlayersCharactersModel {
       .toString()
   }
 
-  static putSkill(id, rank) {
+  static putSkill(id, rank, career) {
     return sql
       .update(PLAYERS_CHARACTERS_SKILLS)
-      .set({ [`${PLAYERS_CHARACTERS_SKILLS}.rank`]: rank })
+      .set({ [`${PLAYERS_CHARACTERS_SKILLS}.rank`]: rank, career })
       .where({ id })
       .toString()
   }

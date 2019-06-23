@@ -296,12 +296,14 @@ class PlayersCharactersController {
               player_character_id,
               skill_id: skill.id,
               rank: skill.rank,
+              career: skill.career ? 1 : 0,
             })
             await res.locals.pool.execute(postPlayerCharacterSkill)
           } else {
             const putPlayerCharacterSkill = PlayersCharactersModel.putSkill(
               playerCharacterSkill.id,
               skill.rank,
+              skill.career,
             )
             await res.locals.pool.execute(putPlayerCharacterSkill)
           }
