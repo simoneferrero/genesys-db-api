@@ -1,18 +1,18 @@
 {
   "name": "genesys-db-api",
   "description": "Web app to manage and display Genesys - SotB data",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "engines": {
     "node": "11.x"
   },
   "scripts": {
     "build": "babel ./src --out-dir dist",
     "clean": "rimraf dist && rimraf node_modules",
-    "dev": "NODE_ENV=development npm run server",
+    "dev": "cross-env NODE_ENV=development npm run server",
     "format": "npm run prettify -- --write",
     "lint": "eslint ./src --ignore-path .gitignore",
     "prettify": "prettier \"src/**/*.js\"",
-    "prod": "NODE_ENV=production npm run server:prod",
+    "prod": "cross-env NODE_ENV=production npm run server:prod",
     "server:prod": "node ./dist/bin/www",
     "server": "babel-node ./src/bin/www",
     "start": "npm run prod",
@@ -40,6 +40,7 @@
     "@babel/preset-env": "^7.4.5",
     "acorn": "^6.1.1",
     "babel-eslint": "^10.0.1",
+    "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-prettier": "^3.1.0",
