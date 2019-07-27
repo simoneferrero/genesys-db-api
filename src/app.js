@@ -10,6 +10,7 @@ const { DB, NODE_ENV, SECRET } = require('./utils/definitions')
 
 // Routes
 const indexRouter = require('./routes/index')
+const adversariesRouter = require('./routes/adversaries')
 const archetypesRouter = require('./routes/archetypes')
 const careersRouter = require('./routes/careers')
 const criticalInjuriesRouter = require('./routes/criticalInjuries')
@@ -77,6 +78,7 @@ try {
   )
 
   app.use('/', indexRouter)
+  app.use('/adversaries', adversariesRouter)
   app.use('/archetypes', archetypesRouter)
   app.use('/careers', careersRouter)
   app.use('/critical-injuries', criticalInjuriesRouter)

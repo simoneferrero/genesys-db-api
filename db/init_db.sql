@@ -421,7 +421,13 @@ Your character may spend {advantage} {advantage} {advantage} on the check to ext
 The details of which character turns out to be an ally depend on the type of encounter and your GM's approval. However, the ally could also have done their work beforehand, such as loading a squadron of drones with blank ammunition, shutting down power to a security system, or planting a tracer in an opponent's vehicle."),
         ("trick_of_the_light", "Trick of the Light", 5, "Active (Incidental)", 0, "When making a combat check with a laser or maser weapon, your character may use this talent to spend {advantage} to inflict one additional hit with this weapon, dealing base damage plus damage equal to the total number of {success} scored on the check. This hit may target the original target or another target within short range of the original target."),
         ("web_of_knowledge", "Web of Knowledge", 5, "Active (Action)", 0, "Once per session your character may make an Average ({difficulty} {difficulty}) Knowledge (Net) check during a Network encounter. If you succeed, your character knows the names, strengths, and other qualities of all ice (active or deactivated) on one system that you currently have access to, as well as all other characters (sysops and runners) that currently are accessing that system.
-Your character may spend {advantage} {advantage} {advantage} or {triumph} from this check (whether or not they succeeded) to add {success} to all Computer checks involving that system that they make for the remainder of the encounter.");
+Your character may spend {advantage} {advantage} {advantage} or {triumph} from this check (whether or not they succeeded) to add {success} to all Computer checks involving that system that they make for the remainder of the encounter."),
+        ("a_face_in_the_crowd", "A Face in the Crowd", 1, "Passive", 0, "Characters add {setback} to any checks they make to pick your character out in a crowd. Your character adds {setback} to any social skill checks they make when interacting with people who do not know them specifically."),
+        ("g_mod_enhanced_muscle", "G-Mod (Enhanced Muscle)", 1, "Active (Incidental)", 0, "Before making a Brawl or Athletics check, your character may suffer 1 strain to add {success} to the results."),
+        ("enhanced_genetic_modification", "Enhanced Genetic Modification", 1, "Active (Incidental)", 0, "Once per session, you may move one Story Point from the Game Master's pool to the player's pool."),
+        ("ready_for_anything", "Ready for Anything", 1, "Active (Incidental, Out of Turn)", 0, "Once per session, when your character uses their G-mod to modify a check, you may spend a story point to add {success} {success} to the check."),
+        ("adjusted_to_cybernetics", "Adjusted to Cybernetics", 1, "Active (Incidental, Out of Turn)", 0, "Once per session, you may move one Story Point to have your character heal 2 strain."),
+        ("low_g_adept", "Low-G Adept", 1, "Passive", 0, "Your character does not count zero-gravity environments as difficult terrain. They add {boost} to Athletics and Coordination checks they make while in low-gravity environments.");
 
 /* Players' characters' talents */
 CREATE TABLE `players_characters_talents` (
@@ -444,4 +450,35 @@ CREATE TABLE `players_characters_talents` (
     REFERENCES `talents` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
+);
+
+/* Adversaries */
+CREATE TABLE IF NOT EXISTS `adversaries` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `type` ENUM('minion', 'rival', 'nemesis') NOT NULL,
+  `name` VARCHAR(100) NOT NULL,
+  `brawn` INT DEFAULT 0,
+  `agility` INT DEFAULT 0,
+  `intellect` INT DEFAULT 0,
+  `cunning` INT DEFAULT 0,
+  `willpower` INT DEFAULT 0,
+  `presence` INT DEFAULT 0,
+  `soak` INT DEFAULT 0,
+  `wounds_total` INT DEFAULT 0,
+  `wounds_current` INT DEFAULT 0,
+  `strain_total` INT DEFAULT 0,
+  `strain_current` INT DEFAULT 0,
+  `defense_melee` INT DEFAULT 0,
+  `defense_ranged` INT DEFAULT 0,
+  `strength_type` VARCHAR(30) NOT NULL,
+  `strength_description` VARCHAR(1000) NOT NULL,
+  `flaw_type` VARCHAR(30) NOT NULL,
+  `flaw_description` VARCHAR(1000) NOT NULL,
+  `desire_type` VARCHAR(30) NOT NULL,
+  `desire_description` VARCHAR(1000) NOT NULL,
+  `fear_type` VARCHAR(30) NOT NULL,
+  `fear_description` VARCHAR(1000) NOT NULL,
+  `notes` TEXT NOT NULL,
+  `armor` VARCHAR(1000) NOT NULL,
+  `gear` VARCHAR(1000) NOT NULL
 );

@@ -46,6 +46,48 @@ const transformPlayerCharacter = ({
   },
 })
 
+const transformAdversary = ({
+  agility,
+  brawn,
+  cunning,
+  defense_melee,
+  defense_ranged,
+  intellect,
+  presence,
+  soak,
+  strain_current,
+  strain_total,
+  willpower,
+  wounds_current,
+  wounds_total,
+  ...fields
+}) => ({
+  ...fields,
+  characteristics: {
+    brawn,
+    agility,
+    intellect,
+    cunning,
+    willpower,
+    presence,
+  },
+  attributes: {
+    soak,
+    wounds: {
+      current: wounds_current,
+      total: wounds_total,
+    },
+    strain: {
+      current: strain_current,
+      total: strain_total,
+    },
+    defense: {
+      melee: defense_melee,
+      ranged: defense_ranged,
+    },
+  },
+})
+
 const checkIsAuthorised = (role, id, authorisedId) => {
   if (role === 'gm' || (id && id === authorisedId)) {
     return
@@ -59,5 +101,6 @@ const checkIsAuthorised = (role, id, authorisedId) => {
 
 module.exports = {
   checkIsAuthorised,
+  transformAdversary,
   transformPlayerCharacter,
 }

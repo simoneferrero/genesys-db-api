@@ -1,4 +1,9 @@
 const CONSTANTS = {
+  ADVERSARIES: 'adversaries',
+  ADVERSARIES_CRITICAL_INJURIES: 'adversaries_critical_injuries',
+  ADVERSARIES_SKILLS: 'adversaries_skills',
+  ADVERSARIES_TALENTS: 'adversaries_talents',
+  ADVERSARIES_WEAPONS: 'adversaries_weapons',
   ARCHETYPES: 'archetypes',
   CAREERS: 'careers',
   CRITICAL_INJURIES: 'critical_injuries',
