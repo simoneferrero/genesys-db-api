@@ -29,7 +29,7 @@
     "express-jwt": "^5.3.1",
     "http-errors": "^1.7.2",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "morgan": "^1.9.0",
     "mysql2": "^1.6.5",
     "sql-bricks": "^2.0.4"
