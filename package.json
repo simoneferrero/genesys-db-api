@@ -20,7 +20,7 @@
     "watch": "nodemon --signal SIGINT"
   },
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "cookie-parser": "^1.4.3",
     "cross-env": "^5.2.0",
     "debug": "^4.1.1",
